@@ -3,7 +3,7 @@ describe('API spec', () => {
     it('responds succesfully', function () {
       cy.request({
         method: 'POST', 
-        url: 'http://localhost:8080/', 
+        url: '/', 
         body: { 
           id: 0, 
           data: { from: 'ETH', to: 'USD' } 
@@ -16,7 +16,7 @@ describe('API spec', () => {
     it('responds with correct data', function () {
       cy.request({
         method: 'POST', 
-        url: 'http://localhost:8080/', 
+        url: '/', 
         body: { 
           id: 123, 
           data: { from: 'ETH', to: 'USD' } 

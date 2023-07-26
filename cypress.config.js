@@ -16,5 +16,6 @@ module.exports = defineConfig({
     },
     video: false,
     screenshotOnRunFailure: false,
+    baseUrl: 'http://localhost:8080',
   },
 });
