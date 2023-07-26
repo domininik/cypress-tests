@@ -12,5 +12,26 @@ describe('API spec', () => {
         expect(response.status).to.eq(200)
       })
     })
+
+    it('responds with correct data', function () {
+      cy.request({
+        method: 'POST', 
+        url: 'http://localhost:8080/', 
+        body: { 
+          id: 123, 
+          data: { from: 'ETH', to: 'USD' } 
+        },
+      }).then((response) => {
+        // return cy.task('log', response.body)
+
+        expect(response.body).to.have.property('jobRunID', 123)
+        expect(response.body).to.have.property('data')
+        expect(response.body.data).to.have.property('USD')
+        expect(response.body.data.USD).to.be.greaterThan(0)
+        expect(response.body.data).to.have.property('result')
+        expect(response.body.data.result).to.be.greaterThan(0)
+        expect(response.body.statusCode).to.eq(200)
+      })
+    })
   })
 })
