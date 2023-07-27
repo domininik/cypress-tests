@@ -1,26 +1,18 @@
 describe('API spec', () => {
   describe('POST /', () => {
     it('responds succesfully', () => {
-      cy.request({
-        method: 'POST', 
-        url: '/', 
-        body: { 
-          id: 0, 
-          data: { from: 'ETH', to: 'USD' } 
-        },
+      cy.request('POST', '/', { 
+        id: 0, 
+        data: { from: 'ETH', to: 'USD' }
       }).then((response) => {
         expect(response.status).to.eq(200)
       })
     })
 
     it('responds with correct data', () => {
-      cy.request({
-        method: 'POST', 
-        url: '/', 
-        body: { 
-          id: 123, 
-          data: { from: 'ETH', to: 'USD' } 
-        },
+      cy.request('POST', '/', { 
+        id: 123, 
+        data: { from: 'ETH', to: 'USD' }
       }).then((response) => {
         // return cy.task('log', response.body)
 
@@ -34,12 +26,8 @@ describe('API spec', () => {
 
     context('job id not supplied', () => {
       it('responds with correct data', () => {
-        cy.request({
-          method: 'POST', 
-          url: 'http://localhost:8080/', 
-          body: { 
-            data: { from: 'ETH', to: 'USD' } 
-          },
+        cy.request('POST', '/', { 
+          data: { from: 'ETH', to: 'USD' }
         }).then((response) => {
           expect(response.body.jobRunID).to.eq('1')
         })
