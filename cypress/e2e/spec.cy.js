@@ -1,6 +1,6 @@
 describe('API spec', () => {
-  context('POST /', function () {
-    it('responds succesfully', function () {
+  describe('POST /', () => {
+    it('responds succesfully', () => {
       cy.request({
         method: 'POST', 
         url: '/', 
@@ -13,7 +13,7 @@ describe('API spec', () => {
       })
     })
 
-    it('responds with correct data', function () {
+    it('responds with correct data', () => {
       cy.request({
         method: 'POST', 
         url: '/', 
@@ -32,8 +32,8 @@ describe('API spec', () => {
       })
     })
 
-    context('job id not supplied', function () {
-      it('responds with correct data', function () {
+    context('job id not supplied', () => {
+      it('responds with correct data', () => {
         cy.request({
           method: 'POST', 
           url: 'http://localhost:8080/', 
