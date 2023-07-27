@@ -16,3 +16,8 @@ Run tests with
 ```shell
 npx cypress run
 ```
+
+Open Cypress UI with
+```shell
+npx cypress open
+```
