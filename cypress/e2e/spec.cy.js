@@ -56,100 +56,168 @@ describe('API spec', () => {
       })
     })
 
-    context('from param not supplied', () => {
-      it('responds with error', () => {
-        cy.request({
-          method: 'POST',
-          url: '/',
-          failOnStatusCode: false,
-          body: { data: { to: 'USD' } }
-        }).then((response) => {
-          expect(response.status).to.eq(500)
-          expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: base')
+    context('missing params', () => {
+      context('from param not supplied', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: { to: 'USD' } }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: base')
+          })
         })
       })
-    })
 
-    context('to param not supplied', () => {
-      it('responds with error', () => {
-        cy.request({
-          method: 'POST',
-          url: '/',
-          failOnStatusCode: false,
-          body: { data: { from: 'ETH' } }
-        }).then((response) => {
-          expect(response.status).to.eq(500)
-          expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: quote')
+      context('to param not supplied', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: { from: 'ETH' } }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: quote')
+          })
         })
       })
-    })
 
-    context('base param not supplied', () => {
-      it('responds with error', () => {
-        cy.request({
-          method: 'POST',
-          url: '/',
-          failOnStatusCode: false,
-          body: { data: { quote: 'USD' } }
-        }).then((response) => {
-          expect(response.status).to.eq(500)
-          expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: base')
+      context('base param not supplied', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: { quote: 'USD' } }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: base')
+          })
         })
       })
-    })
 
-    context('quote param not supplied', () => {
-      it('responds with error', () => {
-        cy.request({
-          method: 'POST',
-          url: '/',
-          failOnStatusCode: false,
-          body: { data: { base: 'ETH' } }
-        }).then((response) => {
-          expect(response.status).to.eq(500)
-          expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: quote')
+      context('quote param not supplied', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: { base: 'ETH' } }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: quote')
+          })
         })
       })
-    })
 
-    context('coin param not supplied', () => {
-      it('responds with error', () => {
-        cy.request({
-          method: 'POST',
-          url: '/',
-          failOnStatusCode: false,
-          body: { data: { market: 'USD' } }
-        }).then((response) => {
-          expect(response.status).to.eq(500)
-          expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: base')
+      context('coin param not supplied', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: { market: 'USD' } }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: base')
+          })
         })
       })
-    })
 
-    context('market param not supplied', () => {
-      it('responds with error', () => {
-        cy.request({
-          method: 'POST',
-          url: '/',
-          failOnStatusCode: false,
-          body: { data: { coin: 'ETH' } }
-        }).then((response) => {
-          expect(response.status).to.eq(500)
-          expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: quote')
+      context('market param not supplied', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: { coin: 'ETH' } }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: quote')
+          })
+        })
+      })
+
+      context('invalid base param', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: { base: 'INVALID', quote: 'USD' } }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.include('Could not retrieve valid data')
+          })
+        })
+      })
+
+      context('invalid quote param', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: { base: 'ETH', quote: 'INVALID' } }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.include('Could not retrieve valid data')
+          })
         })
       })
     })
 
     context('empty params', () => {
-      it('responds with error', () => {
-        cy.request({
-          method: 'POST',
-          url: '/',
-          failOnStatusCode: false,
-          body: { data: {} }
-        }).then((response) => {
-          expect(response.status).to.eq(500)
-          expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: base')
+      context('empty base and quote params', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: { data: {} }
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+            expect(response.body.error.error.message.error.message).to.eq('Required parameter not supplied: base')
+          })
+        })
+      })
+
+      context('empty data', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false,
+            body: {}
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+          })
+        })
+      })
+  
+      context('empty body', () => {
+        it('responds with error', () => {
+          cy.request({
+            method: 'POST',
+            url: '/',
+            failOnStatusCode: false
+          }).then((response) => {
+            expect(response.status).to.eq(500)
+            expect(response.body.status).to.eq('errored')
+          })
         })
       })
     })
